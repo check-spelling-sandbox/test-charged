@@ -3,11 +3,12 @@ package com.github.fulrich.testcharged.generators
 import com.github.fulrich.testcharged.generators.numerics.IntGenerators
 import com.github.fulrich.testcharged.generators.strings.AlphaGenerators
 import org.scalacheck.Gen
-import org.scalatest.prop.GeneratorDrivenPropertyChecks
-import org.scalatest.{FunSuite, Matchers}
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
+import org.scalatest.matchers.should.Matchers
 
 
-class GenerateDslUTest extends FunSuite with Matchers with GeneratorDrivenPropertyChecks {
+class GenerateDslUTest extends AnyFunSuite with Matchers with ScalaCheckPropertyChecks {
   val ConstantGeneratedString: String = "Test"
   val generator: Gen[String] = Gen.const(ConstantGeneratedString)
 

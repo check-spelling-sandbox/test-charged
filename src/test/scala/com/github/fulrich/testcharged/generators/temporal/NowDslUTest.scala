@@ -1,12 +1,12 @@
 package com.github.fulrich.testcharged.generators.temporal
 
 import java.time._
-
 import com.github.fulrich.testcharged.generators.temporal.instant.{FromInstant, ToInstant}
-import org.scalatest.{FunSuite, Matchers}
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.matchers.should.Matchers
 
 
-class NowDslUTest extends FunSuite with Matchers with NowDsl {
+class NowDslUTest extends AnyFunSuite with Matchers with NowDsl {
   test("Can generate a NowProvider from a Instant") {
     val nowProvider = now(Instant.EPOCH)
 

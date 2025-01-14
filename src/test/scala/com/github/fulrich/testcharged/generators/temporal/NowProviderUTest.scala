@@ -1,12 +1,12 @@
 package com.github.fulrich.testcharged.generators.temporal
 
-import java.time.{Clock, LocalDateTime, Month, ZoneOffset}
-
+import java.time.{LocalDateTime, Month, Clock, ZoneOffset}
 import com.github.fulrich.testcharged.generators.temporal.instant.ToInstant
-import org.scalatest.{FunSuite, Matchers}
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.matchers.should.Matchers
 
 
-class NowProviderUTest extends FunSuite with Matchers with NowDsl {
+class NowProviderUTest extends AnyFunSuite with Matchers with NowDsl {
   test("The default NowProvider should use the default system as the default") {
     val defaultNowProvider = implicitly[NowProvider]
 

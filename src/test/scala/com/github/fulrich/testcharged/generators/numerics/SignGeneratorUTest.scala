@@ -1,10 +1,11 @@
 package com.github.fulrich.testcharged.generators.numerics
 
-import org.scalatest.prop.GeneratorDrivenPropertyChecks
-import org.scalatest.{FunSuite, Matchers}
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
+import org.scalatest.matchers.should.Matchers
 
 
-class SignGeneratorUTest extends FunSuite with Matchers with GeneratorDrivenPropertyChecks {
+class SignGeneratorUTest extends AnyFunSuite with Matchers with ScalaCheckPropertyChecks {
 
   test("For a given range the SignGenerator can generate values positive to the max of that range") {
     val signGenerator = new SignGenerator[Int](range = 50)

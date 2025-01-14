@@ -1,11 +1,12 @@
 package com.github.fulrich.testcharged.generators.temporal.instant
 
+import org.scalatest.funsuite.AnyFunSuite
+
 import java.time._
+import org.scalatest.matchers.should.Matchers
 
-import org.scalatest.{FunSuite, Matchers}
 
-
-class InstantConversionsUTest extends FunSuite with Matchers {
+class InstantConversionsUTest extends AnyFunSuite with Matchers {
   test("Can convert from a LocalDate to an Instant and back to a LocalDate") {
     val testLocalDate = LocalDate.of(2018, Month.JUNE, 20)
     val testLocalDateAsInstant = ToInstant(testLocalDate)

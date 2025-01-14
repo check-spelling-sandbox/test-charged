@@ -1,14 +1,19 @@
 package com.github.fulrich.testcharged.generators.locations
 
-import org.scalatest.prop.GeneratorDrivenPropertyChecks
-import org.scalatest.{FunSuite, Matchers}
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
+import org.scalatest.matchers.should.Matchers
 
+class CityGeneratorsUTest
+    extends AnyFunSuite
+    with Matchers
+    with ScalaCheckPropertyChecks {
 
-class CityGeneratorsUTest extends FunSuite with Matchers with GeneratorDrivenPropertyChecks {
-
-  test("All city names generated should be alpha only and start with a capital") {
+  test(
+    "All city names generated should be alpha only and start with a capital"
+  ) {
     forAll(CityGenerators.default) { generatedCity =>
-      CityGenerators.CityList should contain (generatedCity)
+      CityGenerators.CityList should contain(generatedCity)
     }
   }
 }

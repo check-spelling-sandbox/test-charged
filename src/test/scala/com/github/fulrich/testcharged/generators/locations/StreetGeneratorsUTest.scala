@@ -1,10 +1,13 @@
 package com.github.fulrich.testcharged.generators.locations
 
-import org.scalatest.prop.GeneratorDrivenPropertyChecks
-import org.scalatest.{FunSuite, Matchers}
+import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.funsuite.AnyFunSuite
 
-
-class StreetGeneratorsUTest extends FunSuite with Matchers with GeneratorDrivenPropertyChecks {
+class StreetGeneratorsUTest
+    extends AnyFunSuite
+    with Matchers
+    with ScalaCheckPropertyChecks {
 
   test("Can generate street numbers between about 1 and 9999") {
     forAll(StreetGenerators.number) { generatedStreetNumber =>
@@ -34,16 +37,18 @@ class StreetGeneratorsUTest extends FunSuite with Matchers with GeneratorDrivenP
   }
 
   def validateStreetNumber(number: Int): Unit = {
-    number should be  >= StreetGenerators.MinimumStreetNumber
-    number should be  <= StreetGenerators.MaximumStreetNumber
+    number should be >= StreetGenerators.MinimumStreetNumber
+    number should be <= StreetGenerators.MaximumStreetNumber
   }
 
   def validateStreetName(name: String): Unit = {
-    name.filter(character => character.isLetter || character.isDigit || character.isWhitespace).length == name.length
+    name.count(character =>
+      character.isLetter || character.isDigit || character.isWhitespace
+    ) == name.length
   }
 
   def validateStreetSuffix(suffix: String): Unit = {
-    suffix.filter(_.isLetter).length == suffix.length
-    StreetGenerators.Suffixes should contain (suffix)
+    suffix.count(_.isLetter) == suffix.length
+    StreetGenerators.Suffixes should contain(suffix)
   }
 }

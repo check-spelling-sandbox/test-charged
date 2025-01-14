@@ -1,28 +1,36 @@
 name := "Test Charged"
 
-inThisBuild(List(
-  organization := "com.github.fulrich",
-  homepage := Some(url("https://github.com/fulrich/testcharged")),
-  licenses := List("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
-  crossScalaVersions := Seq("2.11.12", "2.12.8", "2.13.0"),
-  developers := List(
-    Developer(
-      "fulrich",
-      "fulrich",
-      "9284621+fulrich@users.noreply.github.com",
-      url("https://github.com/fulrich")
-    )
+inThisBuild(
+  List(
+    organization := "com.github.fulrich",
+    homepage := Some(url("https://github.com/fulrich/testcharged")),
+    licenses := List(
+      "Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")
+    ),
+    scalaVersion := "3.6.2",
+    crossScalaVersions := Seq("2.12.20", "2.13.15", "3.6.2"),
+    developers := List(
+      Developer(
+        "fulrich",
+        "fulrich",
+        "9284621+fulrich@users.noreply.github.com",
+        url("https://github.com/fulrich")
+      )
+    ),
+    libraryDependencySchemes += "org.scala-lang.modules" %% "scala-xml" % "always",
   )
-))
+)
 
 // Dependencies
-val ScalacticVersion = "3.0.8"
-val ScalaCheckVersion = "1.14.0"
+val ScalacticVersion = "3.2.19"
+val ScalaCheckVersion = "1.18.1"
+val ScalaCheckPlusVersion = "3.2.19.0"
 
 libraryDependencies ++= Seq(
   "org.scalacheck" %% "scalacheck" % ScalaCheckVersion,
   "org.scalactic" %% "scalactic" % ScalacticVersion,
   "org.scalatest" %% "scalatest" % ScalacticVersion % Test,
+  "org.scalatestplus" %% "scalacheck-1-18" % ScalaCheckPlusVersion % Test
 )
 
 // Documentation
@@ -45,10 +53,10 @@ lazy val micrositeSettings = Seq(
 
 lazy val root = project in file(".")
 
-lazy val docs = (project in file("docs")).
-  enablePlugins(MicrositesPlugin).
-  settings(publishArtifact := false).
-  settings(micrositeSettings)
+lazy val docs = (project in file("docs"))
+  .enablePlugins(MicrositesPlugin)
+  .settings(publishArtifact := false)
+  .settings(micrositeSettings)
 
 // Publishing
 publishConfiguration := publishConfiguration.value.withOverwrite(true)

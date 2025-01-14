@@ -2,11 +2,15 @@ package com.github.fulrich.testcharged.generators.numerics
 
 import org.scalacheck.Gen
 import org.scalacheck.Gen.Choose
-import org.scalatest.{FunSuite, Matchers}
-import org.scalatest.prop.GeneratorDrivenPropertyChecks
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.matchers.should.Matchers
 
+import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 
-class NumericGeneratorDistributionUTest extends FunSuite with Matchers with GeneratorDrivenPropertyChecks {
+class NumericGeneratorDistributionUTest
+    extends AnyFunSuite
+    with Matchers
+    with ScalaCheckPropertyChecks {
 
   test("The double generator does not weight extremities") {
     ensureExtremitiesNotWeighted(DoubleGenerators)
@@ -28,14 +32,21 @@ class NumericGeneratorDistributionUTest extends FunSuite with Matchers with Gene
     ensureExtremitiesNotWeighted(ShortGenerators)
   }
 
-  def ensureExtremitiesNotWeighted[A : Choose](generator: NumericGenerator[A])(implicit numeric: Numeric[A]): Unit = {
+  def ensureExtremitiesNotWeighted[A: Choose](
+      generator: NumericGenerator[A]
+  )(implicit numeric: Numeric[A]): Unit = {
     val sizeOfList: Int = 100
     val fivePercent: Int = (sizeOfList * 0.05).toInt
-    val listGenerator: Gen[Seq[A]] = Gen.listOfN(sizeOfList, generator.default.default)
+    val listGenerator: Gen[Seq[A]] =
+      Gen.listOfN(sizeOfList, generator.default.default)
 
     forAll(listGenerator) { generatedNumerics =>
-      generatedNumerics.count(_ == generator.DefaultMaximum) should be < fivePercent
-      generatedNumerics.count(_ == numeric.negate(generator.DefaultMaximum)) should be < fivePercent
+      generatedNumerics.count(
+        _ == generator.DefaultMaximum
+      ) should be < fivePercent
+      generatedNumerics.count(
+        _ == numeric.negate(generator.DefaultMaximum)
+      ) should be < fivePercent
     }
   }
 }

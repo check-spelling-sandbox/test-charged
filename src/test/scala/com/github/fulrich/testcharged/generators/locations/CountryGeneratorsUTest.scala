@@ -1,15 +1,18 @@
 package com.github.fulrich.testcharged.generators.locations
 
-import org.scalatest.prop.GeneratorDrivenPropertyChecks
-import org.scalatest.{FunSuite, Matchers}
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
+import org.scalatest.matchers.should.Matchers
 
-
-class CountryGeneratorsUTest extends FunSuite with Matchers with GeneratorDrivenPropertyChecks {
+class CountryGeneratorsUTest
+    extends AnyFunSuite
+    with Matchers
+    with ScalaCheckPropertyChecks {
   test("Can generate just a code of any country in the country list") {
     val allCountryCodes = CountryGenerators.CountryList.map(_.code)
 
     forAll(CountryGenerators.code) { countryCode =>
-      allCountryCodes should contain (countryCode)
+      allCountryCodes should contain(countryCode)
     }
   }
 
@@ -17,13 +20,13 @@ class CountryGeneratorsUTest extends FunSuite with Matchers with GeneratorDriven
     val allCountryNames = CountryGenerators.CountryList.map(_.name)
 
     forAll(CountryGenerators.name) { countryName =>
-      allCountryNames should contain (countryName)
+      allCountryNames should contain(countryName)
     }
   }
 
   test("Can generate a full country object using the country generators") {
     forAll(CountryGenerators.default) { country =>
-      CountryGenerators.CountryList should contain (country)
+      CountryGenerators.CountryList should contain(country)
     }
   }
 }

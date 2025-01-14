@@ -2,9 +2,9 @@ package com.github.fulrich.testcharged.generators.api
 
 
 trait SizeApi[T] {
-  val tiny: T
-  val small: T
-  val default: T
-  val large: T
-  val huge: T
+  def tiny: T
+  def small: T
+  def default: T
+  def large: T
+  def huge: T
 }
