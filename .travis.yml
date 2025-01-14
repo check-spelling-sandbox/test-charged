@@ -3,12 +3,12 @@ sudo: false
 language: scala
 
 scala:
-  - 2.13.0
-  - 2.12.8
-  - 2.11.12
+  - 3.6.2
+  - 2.13.15
+  - 2.12.20
 
 jdk:
-  - oraclejdk8
+  - openjdk21
 
 cache:
   directories:
@@ -41,7 +41,7 @@ jobs:
   include:
     - env: JOB=Documentation
       scala:
-        - 2.12.7
+        - 3.6.2
       before_install:
         - export PATH=${PATH}:./vendor/bundle
       install:
