@@ -3,13 +3,19 @@ name := "Test Charged"
 inThisBuild(
   List(
     organization := "com.github.fulrich",
-    homepage := Some(url("https://github.com/fulrich/testcharged")),
+    homepage := Some(url("https://github.com/garnercorp/test-charged")),
     licenses := List(
       "Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")
     ),
     scalaVersion := "3.6.2",
     crossScalaVersions := Seq("2.12.20", "2.13.15", "3.6.2"),
     developers := List(
+      Developer(
+        "vmandrychenko",
+        "vmandrychenko",
+        "4511527+vmandrychenko@users.noreply.github.com",
+        url("https://github.com/vmandrychenko")
+      ),
       Developer(
         "fulrich",
         "fulrich",
@@ -39,9 +45,9 @@ lazy val micrositeSettings = Seq(
   micrositeDescription := "Supercharge your testing",
   micrositeBaseUrl := "/test-charged",
   micrositeDocumentationUrl := "/test-charged/docs",
-  micrositeAuthor := "fulrich",
-  micrositeHomepage := "https://fulrich.github.io/test-charged/",
-  micrositeGithubOwner := "fulrich",
+  micrositeAuthor := "garnercorp",
+  micrositeHomepage := "https://garnercorp.github.io/test-charged/",
+  micrositeGithubOwner := "garnercorp",
   micrositeGithubRepo := "test-charged",
   micrositeHighlightTheme := "darcula",
   micrositeGithubToken := sys.env.get("GITHUB_TOKEN"),
