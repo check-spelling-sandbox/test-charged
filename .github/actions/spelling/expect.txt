@@ -1,0 +1,15 @@
+dsl
+fulrich
+garnercorp
+gcov
+sbt
+scalacheck
+scalactic
+scalatest
+scalatestplus
+SHAPSHOT
+Sonatype
+testcharged
+UTest
+vmandrychenko
+yml
