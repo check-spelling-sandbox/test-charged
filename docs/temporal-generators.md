@@ -111,7 +111,7 @@ Below are the ranges for the instant generator:
 | Default         | Between 30 days in the future and 30 days in the past. |
 | Soon            | Between now and 30 days in the future.                 |
 | Future          | Between now and 120 days in the future.                |
-| Distant Future  | Between now and 265 dats in the future.                |
+| Distant Future  | Between now and 365 days in the future.                |
 
 
 ## Now Provider
