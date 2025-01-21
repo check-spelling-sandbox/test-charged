@@ -1,6 +1,6 @@
-# Id Generators
+# ID Generators
 
-Below are the provided id generators.
+Below are the provided ID generators.
 
 | Name   | Description               | Code              |
 | ------ | ------------------------- | ----------------- |

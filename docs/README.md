@@ -72,7 +72,7 @@ Generate.alpha.huge       // Largest possible data generation.
 * [Examples](examples.md)
 
 ## Generators
-* [Id Generators](id-generators.md)
+* [ID Generators](id-generators.md)
 * [Numeric Generators](numeric-generators.md)
 * [Other Generators](other-generators.md)
 * [String Generators](string-generators.md)
