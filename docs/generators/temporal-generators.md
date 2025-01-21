@@ -1,9 +1,5 @@
----
-layout: docs
-title: Temporal Generators
----
+# Temporal Generators
 
-## {{page.title}}
 Temporal generators provide the ability to generate [Java 8+ Temporal values](https://docs.oracle.com/javase/8/docs/api/java/time/package-summary.html). 
 These are values related to time and dates.
 

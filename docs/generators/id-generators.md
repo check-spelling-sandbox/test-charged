@@ -1,9 +1,4 @@
----
-layout: docs
-title: Id Generators
----
-
-## {{page.title}}
+# Id Generators
 
 Below are the provided id generators.
 

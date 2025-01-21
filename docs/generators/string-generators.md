@@ -1,9 +1,5 @@
----
-layout: docs
-title: String Generators
----
+# String Generators
 
-## {{page.title}}
 Below are the provided basic string generators.
 
 | Name          | Description                                            | Code                    |

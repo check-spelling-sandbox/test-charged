@@ -1,9 +1,5 @@
----
-layout: docs
-title: Numeric Generators
----
+# Numeric Generators
 
-## {{page.title}}
 Numeric generators provide an extra ability to choose the sign of the generated value.
 The following methods are provided to do so:
 
