@@ -1,11 +1,5 @@
----
-layout: home
-section: "generators"
-title: "Generators"
-position: 2
----
+# Generator Examples
 
-## Generators
 One of the main features of TestCharged is Generators.
 
 Generators are a way for you to create test data without relying on fixtures.

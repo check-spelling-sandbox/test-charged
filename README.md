@@ -27,7 +27,7 @@ libraryDependencies += "com.github.fulrich" %% "test-charged" % "0.1.6-SNAPSHOT"
 ```
 
 ## Documentation
-Our documentation can be found here: https://fulrich.github.io/test-charged/
+See [documentation](docs/README.md)
 
 ## Contributing
 

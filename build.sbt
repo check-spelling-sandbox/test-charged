@@ -39,30 +39,7 @@ libraryDependencies ++= Seq(
   "org.scalatestplus" %% "scalacheck-1-18" % ScalaCheckPlusVersion % Test
 )
 
-// Documentation
-lazy val micrositeSettings = Seq(
-  micrositeName := "Test Charged",
-  micrositeDescription := "Supercharge your testing",
-  micrositeBaseUrl := "/test-charged",
-  micrositeDocumentationUrl := "/test-charged/docs",
-  micrositeAuthor := "garnercorp",
-  micrositeHomepage := "https://garnercorp.github.io/test-charged/",
-  micrositeGithubOwner := "garnercorp",
-  micrositeGithubRepo := "test-charged",
-  micrositeHighlightTheme := "darcula",
-  micrositeGithubToken := sys.env.get("GITHUB_TOKEN"),
-  micrositePushSiteWith := GitHub4s,
-  micrositeGitterChannel := false,
-  micrositeShareOnSocial := false,
-  micrositeFooterText := None
-)
-
 lazy val root = project in file(".")
-
-lazy val docs = (project in file("docs"))
-  .enablePlugins(MicrositesPlugin)
-  .settings(publishArtifact := false)
-  .settings(micrositeSettings)
 
 // Publishing
 publishConfiguration := publishConfiguration.value.withOverwrite(true)

@@ -1,15 +1,5 @@
----
-layout: home
-section: "home"
-title: "Home"
-position: 1
-technologies:
- - first: ["Scala", "TestCharged library is completely written in Scala."]
- - second: ["ScalaTest", "Some of the helpers provided by TestCharged assume the use of ScalaTest."]
- - third: ["ScalaCheck", "The generators of TestCharged are based on the fantastic ScalaCheck library."]
----
-
 # TestCharged
+
 [![Scala Versions](https://img.shields.io/badge/scala-2.12%20%7C%202.13%20%7C%203.6-blue.svg?style=flat-square)](https://github.com/GarnerCorp/test-charged/blob/73a618b69fbed9f6bb5b1bb75874d3d44efe171c/build.sbt#L11)
 
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.fulrich/test-charged_2.12.svg?style=flat-square)](https://search.maven.org/artifact/com.github.fulrich/test-charged_2.12/0.1.1/jar)
@@ -39,3 +29,13 @@ resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repos
 
 libraryDependencies += "com.github.fulrich" %% "test-charged" % "0.1.6-SNAPSHOT" % "test"
 ```
+
+## More
+
+* [Examples](examples.md)
+* [Quick Start](generators/generators.md)
+  * [Id Generators](generators/id-generators.md)
+  * [Numeric Generators](generators/numeric-generators.md)
+  * [Other Generators](generators/other-generators.md)
+  * [String Generators](generators/string-generators.md)
+  * [Temporal Generators](generators/temporal-generators.md)

@@ -1,9 +1,5 @@
----
-layout: docs
-title: Other Generators
----
+# Other Generators
 
-## {{page.title}}
 There are a number of other generators that exists to generate realistic data quickly and easily.
 
 | Name    | Description                        | Generators                      |

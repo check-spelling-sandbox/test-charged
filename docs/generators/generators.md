@@ -1,9 +1,5 @@
----
-layout: docs
-title: Generators
----
+# Quick Start
 
-## {{page.title}}
 ScalaCheck is an amazing library that allows us to create property based checking. 
 I love ScalaCheck but found I was often rewriting some common helpers.
 They are now provided using TestCharged's generator package.
