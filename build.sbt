@@ -2,7 +2,7 @@ name := "Test Charged"
 
 inThisBuild(
   List(
-    organization := "com.github.fulrich",
+    organization := "com.garnercorp",
     homepage := Some(url("https://github.com/garnercorp/test-charged")),
     licenses := List(
       "Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")
