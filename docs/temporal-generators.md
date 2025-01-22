@@ -122,7 +122,7 @@ By default the `NowProvider` will define now using `Clock.systemDefaultZone`.
 This can be overridden using the `NowDsl`.
 
 ```scala
-import com.github.fulrich.testcharged.generators._
+import com.garnercorp.testcharged.generators._
 
 class TemporalTesting extends FunSuite with Matchers {
   // Define a NowProvider implicitly for this test suite
@@ -139,7 +139,7 @@ class TemporalTesting extends FunSuite with Matchers {
 
 If you have a more complex case you can override NowProvider directly instead of using the `NowDsl` helper.
 ```scala
-import com.github.fulrich.testcharged.generators._
+import com.garnercorp.testcharged.generators._
 
 class TemporalTesting extends FunSuite with Matchers {
   // Define an entire NowProvider to handle any other cases you might encounter
