@@ -10,7 +10,7 @@ You can super charge water.  You should also super charge your tests.
 Simply add that dependency to your SBT file:
 
 ```scala 
-libraryDependencies += "com.garnercorp" %% "test-charged" % "0.1.5"
+libraryDependencies += "com.garnercorp" %% "test-charged" % "0.1.17"
 ```
 
 Our SNAPSHOT version is also shown at the badges on the top.  
@@ -19,7 +19,7 @@ To use the newest SHAPSHOT you must include the Sonatype resolver and then add t
 ```scala
 resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
 
-libraryDependencies += "com.garnercorp" %% "test-charged" % "0.1.6-SNAPSHOT" % "test"
+libraryDependencies += "com.garnercorp" %% "test-charged" % "0.1.17-SNAPSHOT" % "test"
 ```
 
 ## Documentation
