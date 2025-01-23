@@ -50,7 +50,9 @@ jobs:
         uses: sbt/setup-sbt@v1
 
       - name: Test
-        run: sbt ++${{ matrix.scala-version }} test
+        env:
+          SCALA_VERSION: ${{ matrix.scala-version }}
+        run: sbt ++"$SCALA_VERSION" test
 
   maven-central:
     name: Maven Central
