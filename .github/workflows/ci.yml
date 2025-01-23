@@ -15,7 +15,7 @@ on:
 
 jobs:
   test:
-    name: Build and Test
+    name: Test
     permissions:
       contents: read
     strategy:
@@ -46,9 +46,6 @@ jobs:
 
       - name: Setup sbt
         uses: sbt/setup-sbt@v1
-
-      - name: Build
-        run: sbt "clean; reload; compile"
 
       - name: Test
         run: sbt ++${{ matrix.scala-version }} test
