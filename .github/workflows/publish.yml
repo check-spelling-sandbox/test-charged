@@ -20,9 +20,17 @@ jobs:
       contents: read
     strategy:
       matrix:
-        java-version: [11, 17, 21]
-        scala-version: ['2.12.x', '2.13.x', '3.x']
-        os: [ubuntu-latest, windows-latest]
+        java-version:
+          - 11
+          - 17
+          - 21
+        scala-version:
+          - 2.12.x
+          - 2.13.x
+          - 3.x
+        os:
+          - ubuntu-latest
+          - windows-latest
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
