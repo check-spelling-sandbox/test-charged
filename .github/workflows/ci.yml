@@ -54,12 +54,17 @@ jobs:
 
   maven-central:
     name: Maven Central
-    needs: [test]
+    needs:
+      - test
     permissions:
       contents: read
     runs-on: ubuntu-latest
-    if: ${{ (github.event_name == 'workflow_dispatch') }}
+    if: ${{ (success() || failure()) && (github.event_name == 'workflow_dispatch') }}
     steps:
+      - uses: garnercorp/build-actions/needs@main
+        with:
+          needs-json: ${{ toJSON(needs) }}
+
       - name: Checkout
         uses: actions/checkout@v4
 
