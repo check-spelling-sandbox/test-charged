@@ -16,15 +16,6 @@ Simply add that dependency to your SBT file:
 libraryDependencies += "com.garnercorp" %% "test-charged" % "0.1.5"
 ```
 
-Our SNAPSHOT version is also shown at the badges on the top.
-To use the newest SHAPSHOT you must include the Sonatype resolver and then add the dependency.
-
-```scala
-resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
-
-libraryDependencies += "com.garnercorp" %% "test-charged" % "0.1.6-SNAPSHOT" % "test"
-```
-
 ### Import
 ```scala
 import com.garnercorp.testcharged.generators._
