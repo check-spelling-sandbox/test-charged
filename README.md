@@ -28,12 +28,6 @@ See [documentation](docs/README.md)
 ## Contributing
 
 ### Releasing
-TestCharged used the ci-release SBT plugin: https://github.com/sbt/sbt-ci-release.
+TestCharged uses the [sonatype SBT plugin](https://github.com/xerial/sbt-sonatype) to do releases to Maven Central.
 
-Every push to master that passes CI will release a SNAPSHOT with a unique version number.
-
-To release a new version git tags are utilized:
-```
-git tag -a v0.1.0 -m "v0.1.0"
-git push origin v0.1.0
-```
+See [.github/workflows/publish.yml](.github/workflows/publish.yml) for steps on how to release a version
