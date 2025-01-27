@@ -1,3 +1,5 @@
+import xerial.sbt.Sonatype.sonatypeCentralHost
+
 name := "Test Charged"
 
 inThisBuild(
@@ -23,6 +25,12 @@ inThisBuild(
         url("https://github.com/fulrich")
       )
     ),
+    scmInfo := Some(
+      ScmInfo(
+        url("https://github.com/garnercorp/test-charged"),
+        "scm:git@github.com:garnercorp/test-charged.git"
+      )
+    ),
     libraryDependencySchemes += "org.scala-lang.modules" %% "scala-xml" % "always",
   )
 )
@@ -42,5 +50,7 @@ libraryDependencies ++= Seq(
 lazy val root = project in file(".")
 
 // Publishing
-publishConfiguration := publishConfiguration.value.withOverwrite(true)
-publishLocalConfiguration := publishLocalConfiguration.value.withOverwrite(true)
+pomIncludeRepository := { _ => false }
+publishMavenStyle := true
+sonatypeCredentialHost := sonatypeCentralHost
+publishTo := sonatypePublishToBundle.value
