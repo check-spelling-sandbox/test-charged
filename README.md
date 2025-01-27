@@ -16,8 +16,6 @@ libraryDependencies += "com.garnercorp" %% "test-charged" % "0.1.5"
 ## Documentation
 See [documentation](docs/README.md)
 
-## Contributing
-
 ### Releasing
 TestCharged uses the [sonatype SBT plugin](https://github.com/xerial/sbt-sonatype) to do releases to Maven Central.
 
