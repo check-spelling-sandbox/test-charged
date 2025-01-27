@@ -1,70 +1,52 @@
-# TestCharged
+# Generator Examples
 
-[![Scala Versions](https://img.shields.io/badge/scala-2.12%20%7C%202.13%20%7C%203.6-blue.svg?style=flat-square)](https://github.com/GarnerCorp/test-charged/blob/73a618b69fbed9f6bb5b1bb75874d3d44efe171c/build.sbt#L11)
+One of the main features of TestCharged is Generators.
 
-## Overview
+Generators are a way for you to create test data without relying on fixtures.
+In large applications fixtures often start to become a crux where multiple tests are relying on the same fixtures due to test data being complex and difficult to create.
+This leads to tests being brittle and difficult to change.
+The fixtures themselves become almost impossible to change without effecting multiple tests which leads to us making an increasing number of fixtures to the point nobody can track them anymore.
 
-A small library with helpers for generating test data through a simple DSL.
+The major advantage of switching to Generators is we no longer need to track all our fixtures.
+An even larger benefit that came from this for us was it forced us to test **behaviour** instead of **data**.
+This lead to much better tests that actually testing what we needed
 
-You can super charge water.  You should also super charge your tests.
-
-## Setup
-
-Simply add that dependency to your SBT file:
-
+### Example
+Take the below test as an example
 ```scala
-libraryDependencies += "com.garnercorp" %% "test-charged" % "0.1.5"
+class UserPersistenceTest extends FunSuite {
+  val userRepository = new UserRepository()
+  val testUser = User(
+    id = None,
+    name = "Han Solo",
+    organization = "Alliance",
+    role = "Smuggler"
+  )
+
+  test("A user can be created in the database") {
+    val storedUser = userRepository.save(testUser)
+    val fetchedUser = userRepository.getById(storedUser.id)
+
+    fetchedUser shouldBe storedUser
+  }
+}
 ```
 
-### Import
-```scala
-import com.garnercorp.testcharged.generators._
-```
-
-### Concrete Values
-I often found I wanted generated values for my tests because I did not want to care about the actual data. The TestCharged generator DSL allows you to do this quickly and easily from any ScalaCheck Gen object.
+If the User structure ever changes every test that follows a similar pattern will need to be updated.
+If there was a fixture instead each fixture would need to be updated.
+If you instead use a generator you simply update the generator and your tests are updated everywhere:
 
 ```scala
-Generate.alpha.value               // String
-Generate.alpha.option              // Option[String] - Could be Some or None
-Generate.alpha.some                // Some(String) - Will always evaluate to Some
-Generate.alpha.seq                 // Seq[String] - Length is arbitrary
-Generate.alpha.nonEmptySeq         // Seq[String] - Will never be empty
-Generate.alpha.seqOf(size = 3)     // Seq[String] - Will be of size 3
+class UserPersistenceTest extends FunSuite {
+  val userRepository = new UserRepository()
+
+  test("A user can be created in the database") {
+    val testUser = UserGenerator.value
+
+    val storedUser = userRepository.save(testUser)
+    val fetchedUser = userRepository.getById(storedUser.id)
+
+    fetchedUser shouldBe storedUser
+  }
+}
 ```
-
-This same DSL can be used to transform a simple `Gen[String]` into more complex generators:
-
-```scala
-Generate.alpha.gen.option              // Gen[Option[String]] - Generated option could be Some or None
-Generate.alpha.gen.some                // Gen[Some(String)] - Generated option will always evaluate to Some
-Generate.alpha.gen.seq                 // Gen[Seq[String]] - Generated sequence's length is arbitrary
-Generate.alpha.gen.nonEmptySeq         // Gen[Seq[String]] - Generated sequence will never be empty
-Generate.alpha.gen.seqOf(size = 3)     // Gen[Seq[String]] - Generated sequence will be of size 3
-```
-
-### Provided Generators
-There are many common use cases for generated data.  TestCharged attempts to provide a number of them.
-You can access these generators through the Generate object which is part of the generators package.
-
-#### Size API
-All basic generators conform to the SizeApi which defines 5 default generation sizes:
-
-```scala
-Generate.alpha.tiny       // Smallest set of data
-Generate.alpha.small      // Data is still readable but larger than tiny.
-Generate.alpha.default    // If you don't know what to use, use this.
-Generate.alpha.large      // Data is large.  Not human readable.
-Generate.alpha.huge       // Largest possible data generation.
-```
-
-## More
-
-* [Examples](examples.md)
-
-## Generators
-* [ID Generators](id-generators.md)
-* [Numeric Generators](numeric-generators.md)
-* [Other Generators](other-generators.md)
-* [String Generators](string-generators.md)
-* [Temporal Generators](temporal-generators.md)
