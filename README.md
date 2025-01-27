@@ -10,7 +10,7 @@ You can super charge water.  You should also super charge your tests.
 Simply add that dependency to your SBT file:
 
 ```scala 
-libraryDependencies += "com.garnercorp" %% "test-charged" % "0.1.5"
+libraryDependencies += "com.garnercorp" %% "test-charged" % "0.1.17"
 ```
 
 ## Documentation
