@@ -11,8 +11,8 @@ scalactic
 scalatest
 scalatestplus
 scm
-SHAPSHOT
 sonatype
+temurin
 testcharged
 UTest
 vmandrychenko

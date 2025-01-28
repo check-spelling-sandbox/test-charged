@@ -1,0 +1,94 @@
+name: CI
+
+on:
+  pull_request:
+    paths:
+      - "src/*"
+      - "project/*"
+      - "*.sbt"
+      - ".github/workflows/ci.yml"
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Test
+    permissions:
+      contents: read
+    strategy:
+      matrix:
+        java-version:
+          - 11
+          - 17
+          - 21
+        scala-version:
+          - 2.12.x
+          - 2.13.x
+          - 3.x
+        os:
+          - ubuntu-latest
+          - windows-latest
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK ${{ matrix.java-version }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ matrix.java-version }}
+          distribution: 'temurin'
+          cache: 'sbt'
+          check-latest: true
+
+      - name: Setup sbt
+        uses: sbt/setup-sbt@v1
+
+      - name: Test
+        env:
+          SCALA_VERSION: ${{ matrix.scala-version }}
+        run: sbt ++"$SCALA_VERSION" test
+
+  maven-central:
+    name: Maven Central
+    needs:
+      - test
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    if: ${{ (success() || failure()) && (github.event_name == 'workflow_dispatch') }}
+    steps:
+      - uses: garnercorp/build-actions/needs@main
+        with:
+          needs-json: ${{ toJSON(needs) }}
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: 'sbt'
+          check-latest: true
+
+      - name: Setup sbt
+        uses: sbt/setup-sbt@v1
+
+      - name: Release
+        shell: bash
+        env:
+          SONATYPE_USERNAME: ${{ secrets.CENTRAL_TOKEN_USERNAME }}
+          SONATYPE_PASSWORD: ${{ secrets.CENTRAL_TOKEN_PASSWORD }}
+          PGP_SECRET: ${{ secrets.GPG_SIGNING_KEY }}
+          PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
+        run: |
+          : Release
+          (
+            umask 0077
+            mkdir -p ~/.gnupg/private-keys-v1.d
+          )
+          
+          export GPG_TTY=$(tty)
+          echo "$PGP_SECRET" | base64 -d | gpg --batch --allow-secret-key-import --import
+          sbt "+publishSigned; sonatypeBundleRelease"
