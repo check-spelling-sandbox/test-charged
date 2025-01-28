@@ -1,0 +1,171 @@
+name: CI
+
+on:
+  pull_request:
+    paths:
+      - "src/*"
+      - "project/*"
+      - "*.sbt"
+      - ".github/workflows/ci.yml"
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Test
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        java-version:
+          - 11
+          - 17
+          - 21
+        scala-version:
+          - '2.12.x'
+          - '2.13.x'
+          - '3.x'
+        os:
+          - ubuntu-latest
+          - windows-latest
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cache Java/SBT
+        if: github.event.pull_request.head.repo.full_name == github.event.pull_request.base.repo.full_name
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.sbt/
+            ~/.cache/
+          key: setup-java-${{ matrix.java-version }}-${{ runner.os }}-${{ runner.arch }}-sbt-${{ matrix.scala-version }}-${{ hashFiles('build.sbt') }}
+
+      - name: Set up JDK ${{ matrix.java-version }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ matrix.java-version }}
+          distribution: 'temurin'
+          check-latest: true
+
+      - name: Set up sbt
+        uses: sbt/setup-sbt@v1
+
+      - name: Test
+        env:
+          SCALA_VERSION: ${{ matrix.scala-version }}
+        shell: bash
+        run: sbt ++"$SCALA_VERSION" test
+
+  artifact:
+    name: Upload JAR
+    needs:
+      - test
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java-version:
+          - 21
+        scala-version:
+          - '2.12.x'
+          - '2.13.x'
+          - '3.x'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cache Java/SBT
+        if: github.event.pull_request.head.repo.full_name == github.event.pull_request.base.repo.full_name
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.sbt/
+            ~/.cache/
+          key: setup-java-${{ matrix.java-version }}-${{ runner.os }}-${{ runner.arch }}-sbt-${{ matrix.scala-version }}-${{ hashFiles('build.sbt') }}
+
+      - name: Set up JDK ${{ matrix.java-version }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ matrix.java-version }}
+          distribution: 'temurin'
+          check-latest: true
+
+      - name: Set up sbt
+        uses: sbt/setup-sbt@v1
+
+      - name: Package JAR
+        env:
+          SCALA_VERSION: "${{ matrix.scala-version }}"
+        run: sbt ++"$SCALA_VERSION" package
+
+      - name: Find JAR
+        id: find-jar-path
+        env:
+          SCALA_VERSION: ${{ matrix.scala-version }}
+        shell: bash
+        run: |
+          : Find JAR
+          jar_path=$(find target/scala-${SCALA_VERSION%.x}* -name "*.jar")
+          echo "jar_path=$jar_path" >> $GITHUB_OUTPUT
+
+      - name: Upload JAR artifact
+        uses: actions/upload-artifact@v4
+        env:
+          JAR_PATH: ${{ steps.find-jar-path.outputs.jar_path }}
+          SCALA_VERSION: ${{ matrix.scala-version }}
+          ARTIFACT_NAME: "test-charged-${{ matrix.scala-version }}"
+        with:
+          name: ${{ env.ARTIFACT_NAME }}
+          path: ${{ env.JAR_PATH }}
+
+  maven-central:
+    name: Maven Central
+    needs:
+      - test
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java-version:
+          - 21
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    steps:
+      - uses: garnercorp/build-actions/needs@main
+        with:
+          needs-json: ${{ toJSON(needs) }}
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK ${{ matrix.java-version }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ matrix.java-version }}
+          distribution: 'temurin'
+          # Do not use a cache for publishing, it is dangerous.
+          check-latest: true
+
+      - name: Set up sbt
+        uses: sbt/setup-sbt@v1
+
+      - name: Release
+        shell: bash
+        env:
+          SONATYPE_USERNAME: ${{ secrets.CENTRAL_TOKEN_USERNAME }}
+          SONATYPE_PASSWORD: ${{ secrets.CENTRAL_TOKEN_PASSWORD }}
+          PGP_SECRET: ${{ secrets.GPG_SIGNING_KEY }}
+          PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
+        run: |
+          : Release
+          (
+            umask 0077
+            mkdir -p ~/.gnupg/private-keys-v1.d
+          )
+
+          export GPG_TTY=$(tty)
+          echo "$PGP_SECRET" | base64 -d | gpg --batch --allow-secret-key-import --import
+          sbt "+publishSigned; sonatypeBundleRelease"
