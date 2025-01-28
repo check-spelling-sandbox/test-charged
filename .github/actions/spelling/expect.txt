@@ -12,6 +12,7 @@ scalatest
 scalatestplus
 scm
 sonatype
+temurin
 testcharged
 UTest
 vmandrychenko
