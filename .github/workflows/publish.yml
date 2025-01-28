@@ -16,6 +16,12 @@ jobs:
       - name: Setup sbt
         uses: sbt/setup-sbt@v1
 
+      - name: Build
+        run: sbt "clean; reload; compile"
+
+      - name: Test
+        run: sbt "+test"
+
       - name: Release
         shell: bash
         env:
@@ -32,4 +38,4 @@ jobs:
           
           export GPG_TTY=$(tty)
           echo "$PGP_SECRET" | base64 -d | gpg --batch --allow-secret-key-import --import
-          sbt "clean; reload; compile; +publishSigned; sonatypeBundleRelease"
+          sbt "+publishSigned; sonatypeBundleRelease"
