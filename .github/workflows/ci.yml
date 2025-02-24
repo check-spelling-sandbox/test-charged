@@ -55,7 +55,7 @@ jobs:
     permissions:
       contents: read
     runs-on: ubuntu-latest
-    if: ${{ (success() || failure()) && (github.event_name == 'workflow_dispatch') }}
+    if: ${{ github.event_name == 'workflow_dispatch' }}
     steps:
       - uses: garnercorp/build-actions/needs@main
         with:
