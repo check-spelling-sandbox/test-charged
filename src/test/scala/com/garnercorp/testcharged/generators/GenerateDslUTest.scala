@@ -17,7 +17,7 @@ class GenerateDslUTest extends AnyFunSuite with Matchers with ScalaCheckProperty
     generator.option should (be(Option(ConstantGeneratedString)) or be(None))
     generator.some shouldBe Some(ConstantGeneratedString)
     generator.seqOf(3) shouldBe Seq(ConstantGeneratedString, ConstantGeneratedString, ConstantGeneratedString)
-    generator.seq should contain only (ConstantGeneratedString)
+    generator.seq should (be(empty) or contain only (ConstantGeneratedString))
     generator.nonEmptySeq.nonEmpty
   }
 
