@@ -25,6 +25,10 @@
 # GitHub actions
 \buses:\s+[-\w.]+/[-\w./]+@[-\w.]+
 
+# hit-count: 1 file-count: 1
+# perl run
+perl(?:\s+-[a-zA-Z]\w*)+
+
 # Questionably acceptable forms of `in to`
 # Personally, I prefer `log into`, but people object
 # https://www.tprteaching.com/log-into-log-in-to-login/

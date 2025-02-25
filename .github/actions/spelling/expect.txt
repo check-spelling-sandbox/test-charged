@@ -13,6 +13,7 @@ scalafmt
 scalatest
 scalatestplus
 scm
+scoverage
 sonatype
 temurin
 testcharged

@@ -58,6 +58,62 @@ jobs:
         shell: bash
         run: sbt ++"$SCALA_VERSION" test
 
+  coverage:
+    name: Code Coverage
+    needs:
+      - test
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java-version:
+          - 21
+        scala-version:
+          - '3.x'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cache Java/SBT
+        if: github.event.pull_request.head.repo.full_name == github.event.pull_request.base.repo.full_name
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.sbt/
+            ~/.cache/
+          key: setup-java-${{ matrix.java-version }}-${{ runner.os }}-${{ runner.arch }}-sbt-${{ matrix.scala-version }}-${{ hashFiles('build.sbt') }}
+
+      - name: Set up JDK ${{ matrix.java-version }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ matrix.java-version }}
+          distribution: 'temurin'
+          check-latest: true
+
+      - name: Set up sbt
+        uses: sbt/setup-sbt@v1
+
+      - name: Generate Code Coverage Reports
+        shell: bash
+        run: sbt "clean; coverage; test; coverageReport"
+
+      - name: Extract and display coverage report summary
+        shell: bash
+        run: |
+          perl -ne 'if(!$overview) { if(/<div class="overview">/){$overview = 1};next};s/^\s+//;print;last if m{</table>}' target/scala-*/scoverage-report/overview.html >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Zip coverage report
+        shell: bash
+        run: |
+          find target/scala-*/*coverage-report -type f | zip /tmp/scoverage.zip -@
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: scoverage
+          path: /tmp/scoverage.zip
+
   artifact:
     name: Upload JAR
     needs:
