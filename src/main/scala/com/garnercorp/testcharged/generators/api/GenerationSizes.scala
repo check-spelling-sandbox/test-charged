@@ -1,6 +1,5 @@
 package com.garnercorp.testcharged.generators.api
 
-
 trait GenerationSizes[T] {
   val Minimum: T
   val TinyMaximum: T

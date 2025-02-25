@@ -1,6 +1,5 @@
 package com.garnercorp.testcharged.generators.api
 
-
 trait SizeApi[T] {
   def tiny: T
   def small: T

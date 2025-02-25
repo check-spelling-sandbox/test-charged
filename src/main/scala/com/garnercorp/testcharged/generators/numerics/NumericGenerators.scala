@@ -1,6 +1,5 @@
 package com.garnercorp.testcharged.generators.numerics
 
-
 trait NumericGenerators {
   val short: NumericGenerator[Short] = ShortGenerators
   val int: NumericGenerator[Int] = IntGenerators

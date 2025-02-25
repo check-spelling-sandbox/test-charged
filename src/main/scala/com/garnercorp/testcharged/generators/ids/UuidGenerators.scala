@@ -11,7 +11,7 @@ class UuidGenerators {
 
 object UuidGenerators {
   def apply(): UuidGenerators = new UuidGenerators()
-  
+
   implicit def uuidGeneratorDefaultCaller: DefaultCaller[UUID, UuidGenerators] =
     new DefaultCaller[UUID, UuidGenerators] {
       override def apply(callee: UuidGenerators): Gen[UUID] = callee.default

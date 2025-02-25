@@ -2,7 +2,6 @@ package com.garnercorp.testcharged.generators.temporal
 
 import java.time._
 
-
 trait NowProvider {
   def apply(): Clock
 

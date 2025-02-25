@@ -1,6 +1,5 @@
 package com.garnercorp.testcharged.generators.numerics
 
-
 object FloatGenerators extends NumericGenerator[Float] {
   override val Minimum: Float = Float.MinValue.toInt
   override val TinyMaximum: Float = 25

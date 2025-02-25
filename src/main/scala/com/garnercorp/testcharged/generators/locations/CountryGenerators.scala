@@ -4,12 +4,14 @@ import org.scalacheck.Gen
 
 import scala.io.Source
 
-
 object CountryGenerators {
   case class Country(code: String, name: String)
 
   private lazy val countryFile = "/generators/locations/countries.txt"
-  private lazy val rawCountryList = Source.fromInputStream(getClass.getResourceAsStream(countryFile)).getLines.toVector
+  private lazy val rawCountryList = Source
+    .fromInputStream(getClass.getResourceAsStream(countryFile))
+    .getLines
+    .toVector
 
   val CountryList: Seq[Country] = rawCountryList.map { countryString =>
     val Array(code, name) = countryString.split('|')

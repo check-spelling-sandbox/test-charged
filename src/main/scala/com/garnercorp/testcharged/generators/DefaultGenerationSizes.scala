@@ -2,7 +2,6 @@ package com.garnercorp.testcharged.generators
 
 import com.garnercorp.testcharged.generators.api.GenerationSizes
 
-
 trait DefaultGenerationSizes extends GenerationSizes[Int] {
   val Minimum: Int = 0
   val TinyMaximum: Int = 8

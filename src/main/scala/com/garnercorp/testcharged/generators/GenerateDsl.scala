@@ -5,14 +5,14 @@ import org.scalacheck.Gen
 
 import scala.language.implicitConversions
 
-
 trait GenerateDsl {
   implicit class GeneratorHelper[T](private val generator: Gen[T]) {
     lazy val gen = new ExtendedGeneratorsHelper[T](generator)
 
     def value: T = generator.sample match {
       case Some(value) => value
-      case None => throw new IllegalArgumentException(GenerateDsl.GenerationFailureMessage)
+      case None =>
+        throw new IllegalArgumentException(GenerateDsl.GenerationFailureMessage)
     }
 
     def some: Option[T] = gen.some.value
@@ -30,10 +30,14 @@ trait GenerateDsl {
     def nonEmptySeq: Gen[Seq[T]] = Gen.nonEmptyListOf(generator)
   }
 
-  implicit def toGen[A, T](defaultApi: T)(implicit defaultCaller: DefaultCaller[A, T]): Gen[A] =
+  implicit def toGen[A, T](defaultApi: T)(implicit
+      defaultCaller: DefaultCaller[A, T]
+  ): Gen[A] =
     defaultCaller(defaultApi)
 
-  implicit def toGeneratorHelper[A, T](defaultApi: T)(implicit defaultCaller: DefaultCaller[A, T]): GeneratorHelper[A] =
+  implicit def toGeneratorHelper[A, T](defaultApi: T)(implicit
+      defaultCaller: DefaultCaller[A, T]
+  ): GeneratorHelper[A] =
     new GeneratorHelper(defaultCaller(defaultApi))
 }
 

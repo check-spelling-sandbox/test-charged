@@ -1,6 +1,5 @@
 package com.garnercorp.testcharged.generators.numerics
 
-
 object IntGenerators extends NumericGenerator[Int] {
   override val Minimum: Int = Int.MinValue
   override val TinyMaximum: Int = 25
