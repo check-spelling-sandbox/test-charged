@@ -21,9 +21,9 @@ jobs:
           - 17
           - 21
         scala-version:
-          - 2.12.x
-          - 2.13.x
-          - 3.x
+          - '2.12.x'
+          - '2.13.x'
+          - '3.x'
         os:
           - ubuntu-latest
           - windows-latest
@@ -47,6 +47,58 @@ jobs:
         env:
           SCALA_VERSION: ${{ matrix.scala-version }}
         run: sbt ++"$SCALA_VERSION" test
+
+  artifact:
+    name: Upload JAR
+    needs:
+      - test
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        scala-version-without-patch:
+          - '2.12'
+          - '2.13'
+          - '3'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: 'sbt'
+          check-latest: true
+
+      - name: Setup sbt
+        uses: sbt/setup-sbt@v1
+
+      - name: Package JAR
+        env:
+          SCALA_VERSION: "${{ matrix.scala-version-without-patch }}.x"
+        run: sbt ++"$SCALA_VERSION" package
+
+      - name: Find JAR
+        id: find-jar-path
+        env:
+          SCALA_VERSION: ${{ matrix.scala-version-without-patch }}
+        shell: bash
+        run: |
+          jar_path=$(find target/scala-$SCALA_VERSION* -name "*.jar")
+          echo "jar_path=$jar_path" >> $GITHUB_OUTPUT
+
+      - name: Upload JAR artifact
+        uses: actions/upload-artifact@v4
+        env:
+          JAR_PATH: ${{ steps.find-jar-path.outputs.jar_path }}
+          SCALA_VERSION: ${{ matrix.scala-version-without-patch }}
+          ARTIFACT_NAME: 'test-charged-${{ matrix.scala-version-without-patch }}'
+        with:
+          name: ${{ env.ARTIFACT_NAME }}
+          path: ${{ env.JAR_PATH }}
 
   maven-central:
     name: Maven Central
