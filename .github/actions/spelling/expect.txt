@@ -4,6 +4,7 @@ garnercorp
 gcov
 gnupg
 gpg
+jenkins
 PGP
 sbt
 scalacheck
