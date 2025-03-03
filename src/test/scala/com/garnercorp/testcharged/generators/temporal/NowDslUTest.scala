@@ -1,10 +1,12 @@
 package com.garnercorp.testcharged.generators.temporal
 
 import java.time._
-import com.garnercorp.testcharged.generators.temporal.instant.{FromInstant, ToInstant}
+import com.garnercorp.testcharged.generators.temporal.instant.{
+  FromInstant,
+  ToInstant
+}
 import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.matchers.should.Matchers
-
 
 class NowDslUTest extends AnyFunSuite with Matchers with NowDsl {
   test("Can generate a NowProvider from a Instant") {
@@ -13,8 +15,14 @@ class NowDslUTest extends AnyFunSuite with Matchers with NowDsl {
     nowProvider.localDate shouldBe Epoch.LocalDate
     nowProvider.localTime shouldBe Epoch.LocalTime
     nowProvider.instant shouldBe Instant.EPOCH
-    nowProvider.localDateTime shouldBe LocalDateTime.of(Epoch.LocalDate, Epoch.LocalTime)
-    nowProvider.zonedDateTime shouldBe FromInstant.toZonedDateTime(Instant.EPOCH, ZoneOffset.UTC)
+    nowProvider.localDateTime shouldBe LocalDateTime.of(
+      Epoch.LocalDate,
+      Epoch.LocalTime
+    )
+    nowProvider.zonedDateTime shouldBe FromInstant.toZonedDateTime(
+      Instant.EPOCH,
+      ZoneOffset.UTC
+    )
     nowProvider.zone shouldBe ZoneOffset.UTC
   }
 
@@ -24,8 +32,15 @@ class NowDslUTest extends AnyFunSuite with Matchers with NowDsl {
     nowProvider.localDate shouldBe Epoch.LocalDate
     nowProvider.localTime shouldBe Epoch.LocalTime
     nowProvider.instant shouldBe Instant.EPOCH
-    nowProvider.localDateTime shouldBe LocalDateTime.of(Epoch.LocalDate, LocalTime.MIDNIGHT)
-    nowProvider.zonedDateTime shouldBe ZonedDateTime.of(Epoch.LocalDate, Epoch.LocalTime, ZoneOffset.UTC)
+    nowProvider.localDateTime shouldBe LocalDateTime.of(
+      Epoch.LocalDate,
+      LocalTime.MIDNIGHT
+    )
+    nowProvider.zonedDateTime shouldBe ZonedDateTime.of(
+      Epoch.LocalDate,
+      Epoch.LocalTime,
+      ZoneOffset.UTC
+    )
     nowProvider.zone shouldBe ZoneOffset.UTC
   }
 

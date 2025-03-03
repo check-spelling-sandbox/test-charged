@@ -4,10 +4,14 @@ import org.scalatest.funsuite.AnyFunSuite
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import org.scalatest.matchers.should.Matchers
 
+class SignGeneratorUTest
+    extends AnyFunSuite
+    with Matchers
+    with ScalaCheckPropertyChecks {
 
-class SignGeneratorUTest extends AnyFunSuite with Matchers with ScalaCheckPropertyChecks {
-
-  test("For a given range the SignGenerator can generate values positive to the max of that range") {
+  test(
+    "For a given range the SignGenerator can generate values positive to the max of that range"
+  ) {
     val signGenerator = new SignGenerator[Int](range = 50)
 
     forAll(signGenerator.positive) { generatedInt =>
@@ -16,7 +20,9 @@ class SignGeneratorUTest extends AnyFunSuite with Matchers with ScalaCheckProper
     }
   }
 
-  test("For a given range the SignGenerator can generate values negative to the minimum of that range") {
+  test(
+    "For a given range the SignGenerator can generate values negative to the minimum of that range"
+  ) {
     val signGenerator = new SignGenerator[Int](range = 50)
 
     forAll(signGenerator.negative) { generatedInt =>
@@ -25,7 +31,9 @@ class SignGeneratorUTest extends AnyFunSuite with Matchers with ScalaCheckProper
     }
   }
 
-  test("For a given range the SignGenerator can generate values to the minimum or maximum of that range") {
+  test(
+    "For a given range the SignGenerator can generate values to the minimum or maximum of that range"
+  ) {
     val signGenerator = new SignGenerator[Int](range = 50)
 
     forAll(signGenerator.default) { generatedInt =>
