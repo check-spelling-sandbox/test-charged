@@ -5,16 +5,19 @@ import com.garnercorp.testcharged.generators.temporal.instant.ToInstant
 import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.matchers.should.Matchers
 
-
 class NowProviderUTest extends AnyFunSuite with Matchers with NowDsl {
   test("The default NowProvider should use the default system as the default") {
     val defaultNowProvider = implicitly[NowProvider]
 
-    defaultNowProvider.apply().millis shouldBe (Clock.systemDefaultZone.millis +- 100)
+    defaultNowProvider
+      .apply()
+      .millis shouldBe (Clock.systemDefaultZone.millis +- 100)
     defaultNowProvider.zone shouldBe Clock.systemDefaultZone.getZone
   }
 
-  test("Should be able to retrieve the different temporal types from a now provider") {
+  test(
+    "Should be able to retrieve the different temporal types from a now provider"
+  ) {
     val testLocalDateTime = LocalDateTime.of(2018, Month.JULY, 20, 10, 20)
     val testNow = now(testLocalDateTime)
 
