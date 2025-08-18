@@ -31,7 +31,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Cache Java/SBT
         if: github.event.pull_request.head.repo.full_name == github.event.pull_request.base.repo.full_name
@@ -73,7 +73,7 @@ jobs:
           - '3.x'
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Cache Java/SBT
         if: github.event.pull_request.head.repo.full_name == github.event.pull_request.base.repo.full_name
@@ -131,7 +131,7 @@ jobs:
           - '3.x'
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Cache Java/SBT
         if: github.event.pull_request.head.repo.full_name == github.event.pull_request.base.repo.full_name
@@ -195,7 +195,7 @@ jobs:
           needs-json: ${{ toJSON(needs) }}
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up JDK ${{ matrix.java-version }}
         uses: actions/setup-java@v4
